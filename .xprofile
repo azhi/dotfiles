@@ -1,1 +1,2 @@
+export GOPATH="/home/azhi/develop/go"
 source ~/.bashrc
