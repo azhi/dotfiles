@@ -114,9 +114,6 @@ source  ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
 
-# apt problem solving
-source /etc/zsh_command_not_found
-
 # aliases
 alias ls='ls --color=auto'
 alias ll='ls -lh --color=auto'
