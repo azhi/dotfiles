@@ -72,5 +72,9 @@ command ShoesRun ! /home/azhi/.shoes/dist/shoes %
 
 autocmd bufwritepost .vimrc  source $MYVIMRC
 
+" add skim syntax (slim client side templated)
+autocmd BufNewFile,BufRead *.skim set filetype=slim
+
 "Autostart
 autocmd VimEnter * NERDTree
+

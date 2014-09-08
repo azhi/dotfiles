@@ -99,6 +99,7 @@ Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
 " syntax support
 
+Bundle 'guns/vim-clojure-static'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tsaleh/vim-tmux'
 Bundle 'Puppet-Syntax-Highlighting'
@@ -113,6 +114,7 @@ Bundle 'wavded/vim-stylus'
 Bundle 'VimClojure'
 Bundle 'slim-template/vim-slim'
 Bundle 'elixir-lang/vim-elixir'
+Bundle 'rust-lang/rust', {'rtp': 'src/etc/vim/'}
 
 " Support and minor
 
