@@ -1,136 +1,139 @@
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " plugin management
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " file tree
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 " file tree and tabs interaction
-Bundle 'jistr/vim-nerdtree-tabs'
+Plugin 'jistr/vim-nerdtree-tabs'
 " commenting
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 " fuzzy file open
-Bundle 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim'
 " popup completion menu
-Bundle 'AutoComplPop'
+Plugin 'AutoComplPop'
 " tags list navigation
-Bundle 'taglist.vim'
+Plugin 'taglist.vim'
 " yank history
-Bundle 'YankRing.vim'
+Plugin 'YankRing.vim'
 " git integration
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " syntax checking on save
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 " TextMate-style snippets
-Bundle 'msanders/snipmate.vim'
+Plugin 'msanders/snipmate.vim'
 " manipulation of surraunding parens, quotes, etc.
-Bundle 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 " vertical alignment tool
-Bundle 'tsaleh/vim-align'
+Plugin 'tsaleh/vim-align'
 " 'ack' searching integration
-Bundle 'mileszs/ack.vim'
+Plugin 'mileszs/ack.vim'
 " text object based on indent level (ai, ii)
-Bundle 'austintaylor/vim-indentobject'
+Plugin 'austintaylor/vim-indentobject'
 " global search & replace
-Bundle 'greplace.vim'
+Plugin 'greplace.vim'
 " better looking statusline
-Bundle 'astrails/vim-powerline'
+Plugin 'astrails/vim-powerline'
 " surround plugin
-Bundle 'vim-scripts/surround.vim'
+Plugin 'vim-scripts/surround.vim'
 " comments plugin
-Bundle 'vim-scripts/tComment'
+Plugin 'vim-scripts/tComment'
 " proper CamelCase text objects
-Bundle 'bkad/CamelCaseMotion'
+Plugin 'bkad/CamelCaseMotion'
 " HTML 5 omnicomplete and syntax
-Bundle 'othree/html5.vim'
+Plugin 'othree/html5.vim'
 " auto close paired characters (parenthesis, etc.)
-Bundle 'vim-scripts/AutoClose'
+Plugin 'vim-scripts/AutoClose'
 " buffregator (managing buffers)
-Bundle 'jeetsukumaran/vim-buffergator'
+Plugin 'jeetsukumaran/vim-buffergator'
 " show index when searching
-Bundle 'vim-scripts/IndexedSearch'
+Plugin 'vim-scripts/IndexedSearch'
 " jQuery syntax support
-Bundle 'vim-scripts/jQuery'
+Plugin 'vim-scripts/jQuery'
 " plugin for resolving three-way merge conflicts
-Bundle 'sjl/threesome.vim'
+Plugin 'sjl/threesome.vim'
 " plugin for visually displaying indent levels
-Bundle 'Indent-Guides'
+Plugin 'Indent-Guides'
 " end certain structures automatically, e.g. begin/end etc.
-Bundle 'tpope/vim-endwise'
+Plugin 'tpope/vim-endwise'
 " automatic closing of quotes, parenthesis, brackets, etc.
-Bundle 'Raimondi/delimitMate'
+Plugin 'Raimondi/delimitMate'
 " calendar, duh!
-Bundle 'calendar.vim--Matsumoto'
+Plugin 'calendar.vim--Matsumoto'
 " A Narrow Region Plugin (similar to Emacs)
-Bundle 'chrisbra/NrrwRgn'
+Plugin 'chrisbra/NrrwRgn'
 " url based hyperlinks for text files
-Bundle 'utl.vim'
+Plugin 'utl.vim'
 " A clone of Emacs' Org-mode for Vim
-Bundle 'hsitz/VimOrganizer'
+Plugin 'hsitz/VimOrganizer'
 " visual undo tree
-Bundle 'sjl/gundo.vim'
+Plugin 'sjl/gundo.vim'
 " switch segments of text with predefined replacements. e.g. '' -> ""
-Bundle 'AndrewRadev/switch.vim'
+Plugin 'AndrewRadev/switch.vim'
 
 " Ruby/Rails
 
 " rails support
-Bundle 'tpope/vim-rails'
+Plugin 'tpope/vim-rails'
 " bundler integration (e.g. :Bopen)
-Bundle 'tpope/vim-bundler'
+Plugin 'tpope/vim-bundler'
 " rake integration
-Bundle 'tpope/vim-rake'
+Plugin 'tpope/vim-rake'
 " A custom text object for selecting ruby blocks (ar/ir)
-Bundle 'nelstrom/vim-textobj-rubyblock'
+Plugin 'nelstrom/vim-textobj-rubyblock'
 " ruby refactoring
-Bundle 'ecomba/vim-ruby-refactoring'
+Plugin 'ecomba/vim-ruby-refactoring'
 " apidock.com docs integration
-Bundle 'apidock.vim'
+Plugin 'apidock.vim'
 " toggle ruby blocks style
-Bundle 'vim-scripts/blockle.vim'
+Plugin 'vim-scripts/blockle.vim'
 
 " color themes
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-vividchalk'
-Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tpope/vim-vividchalk'
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
 " syntax support
 
-Bundle 'guns/vim-clojure-static'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tsaleh/vim-tmux'
-Bundle 'Puppet-Syntax-Highlighting'
-Bundle 'JSON.vim'
-Bundle 'tpope/vim-cucumber'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-markdown'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'vitaly/vim-syntastic-coffee'
-Bundle 'vim-scripts/jade.vim'
-Bundle 'wavded/vim-stylus'
-Bundle 'VimClojure'
-Bundle 'slim-template/vim-slim'
-Bundle 'elixir-lang/vim-elixir'
-Bundle 'rust-lang/rust', {'rtp': 'src/etc/vim/'}
+Plugin 'guns/vim-clojure-static'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tsaleh/vim-tmux'
+Plugin 'Puppet-Syntax-Highlighting'
+Plugin 'JSON.vim'
+Plugin 'tpope/vim-cucumber'
+Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-markdown'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'vitaly/vim-syntastic-coffee'
+Plugin 'vim-scripts/jade.vim'
+Plugin 'wavded/vim-stylus'
+Plugin 'VimClojure'
+Plugin 'slim-template/vim-slim'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'rust-lang/rust', {'rtp': 'src/etc/vim/'}
 
 " Support and minor
 
 " Support for user-defined text objects
-Bundle 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-user'
 " replacement for the repeat mapping (.) to support plugins
-Bundle 'tpope/vim-repeat'
+Plugin 'tpope/vim-repeat'
 " hide .gitignore-d files from vim
-Bundle 'vitaly/vim-gitignore'
+Plugin 'vitaly/vim-gitignore'
 " repeat motion with <Space>
-Bundle 'scrooloose/vim-space'
+Plugin 'scrooloose/vim-space'
 " Github's gist support
-Bundle 'mattn/gist-vim'
+Plugin 'mattn/gist-vim'
 " web APIs support
-Bundle 'mattn/webapi-vim'
+Plugin 'mattn/webapi-vim'
 
-"Bundle 'ShowMarks'
-"Bundle 'tpope/vim-unimpaired'
-"Bundle 'reinh/vim-makegreen'
+"Plugin 'ShowMarks'
+"Plugin 'tpope/vim-unimpaired'
+"Plugin 'reinh/vim-makegreen'
+
+call vundle#end()
+filetype plugin indent on
