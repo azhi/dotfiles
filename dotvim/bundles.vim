@@ -74,6 +74,8 @@ Plugin 'hsitz/VimOrganizer'
 Plugin 'sjl/gundo.vim'
 " switch segments of text with predefined replacements. e.g. '' -> ""
 Plugin 'AndrewRadev/switch.vim'
+" session & tabs manager
+Plugin 'szw/vim-ctrlspace'
 
 " Ruby/Rails
 

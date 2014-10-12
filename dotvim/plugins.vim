@@ -137,3 +137,6 @@ autocmd FileType haml let b:switch_definitions =
       \ ]
 
 let g:blockle_mapping = '<Leader>B'
+
+" vim-ctrlspace
+let g:ctrlspace_use_tabline = 1
