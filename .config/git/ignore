@@ -1,2 +1,7 @@
+# vim swap files
+*.swp
+*.swo
+*.swn
+
 .cs_files
 .cs_workspaces
