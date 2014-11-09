@@ -1,0 +1,72 @@
+URxvt*perl-ext-common:      default,clipboard,url-select,keyboard-select
+URxvt*url-select.launcher:  chromium
+URxvt*url-select.underline: true
+
+URxvt*color0:     rgb:00/00/00
+URxvt*color1:     rgb:9e/18/28
+URxvt*color2:     rgb:00/88/00
+URxvt*color3:     rgb:96/8a/38
+URxvt*color4:     rgb:61/61/c1
+URxvt*color5:     rgb:ba/55/d3
+URxvt*color6:     rgb:41/81/79
+URxvt*color7:     rgb:be/be/be
+URxvt*color8:     rgb:66/66/66
+URxvt*color9:     rgb:cf/61/71
+URxvt*color10:    rgb:7c/bc/8c
+URxvt*color11:    rgb:ff/f7/96
+URxvt*color12:    rgb:41/86/be
+URxvt*color13:    rgb:db/70/93
+URxvt*color14:    rgb:71/be/be
+URxvt*color15:    rgb:ff/ff/ff
+URxvt*background: rgb:1a/1a/1a
+URxvt*foreground: rgb:d6/d6/d6
+URxvt*cursorColor: 8
+URxvt*cursorColor2: 8
+! URxvt*pointerColor: white
+! URxvt*pointerColor2: white
+URxvt*fading:               20
+URxvt*urgentOnBell:         true
+URxvt*visualBell:           true
+
+! Set scrollbar style to rxvt, plain, next or xterm. plain is the authors favourite.
+URxvt*scrollstyle:          rxvt
+URxvt*scrollBar_right:      true
+URxvt*scrollTtyKeypress:    true
+URxvt*saveLines:            10240
+
+URxvt*transparent: true
+URxvt*tintColor: rgb:2a/2a/2a
+
+URxvt*font: xft:DejaVu Sans Mono:pixelsize=12:antialias=true:hinting=true
+URxvt*boldFont: xft:DejaVu Sans Mono:bold:pixelsize=12:antialias=true:hinting=true
+URxvt*italicFont: xft:DejaVu Sans Mono:oblique:pixelsize=12:antialias=true:hinting=true
+URxvt*boldItalicFont: xft:DejaVu Sans Mono:bold_oblique:pixelsize=12:antialias=true:hinting=true
+
+
+! True: display an rxvt scrollbar without a trough; option -st.  False: display an rxvt scrollbar with a trough; option +st.
+! URxvt*scrollBar_floating: boolean
+
+! True: scroll to bottom when tty receives output; option -si.  False: do not scroll to bottom when tty receives output; option +si.
+! URxvt*scrollTtyOutput: boolean
+
+! True: scroll with scrollback buffer when tty receives new lines (i.e.  try to show the same lines) and scrollTtyOutput is False; option -sw. False: do not scroll with scrollback buffer when tty receives new lines; option +sw.
+! URxvt*scrollWithBuffer: boolean
+
+! Compile frills: Disable the usage of the built-in block graphics/line drawing characters and just rely on what the specified fonts provide. Use this if you have a good font and want to use its block graphic glyphs; option
+URxvt*skipBuiltinGlyphs:    true
+
+
+! Specifies number of lines (pixel height) to insert between each row of the display [default 0]; option -lsp.
+! URxvt*lineSpace: number
+
+! The string to send when the backspace key is pressed. If set to DEC or unset it will send Delete (code 127) or, with control, Backspace (code 8) - which can be reversed with the appropriate DEC private mode escape sequence.
+! URxvt*backspacekey: string
+
+! The string to send when the delete key (not the keypad delete key) is pressed. If unset it will send the sequence traditionally associated with the Execute key.
+! URxvt*deletekey: string
+
+! The characters used as delimiters for double-click word selection (whitespace delimiting is added automatically if resource is given).
+! URxvt*cutchars: string
+
+! Specify the font-set used for XIM styles "OverTheSpot" or "OffTheSpot". It must be a standard X font set (XLFD patterns separated by commas), i.e. its not in the same format as the other font lists used in urxvt. The default
+! URxvt*imFont: fontset
