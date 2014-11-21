@@ -86,9 +86,9 @@ function panels_m:create_wiboxes(layouts, mainlauncher)
       -- Create the wibox
       self.wibox[s] = awful.wibox({ position = "top", height = "20", screen = s })
 
-      volume_master = blingbling.volume({height = 20, width = 40, bar =true})
-      volume_master:update_master()
-      volume_master:set_master_control()
+      -- volume_master = blingbling.volume({height = 20, width = 40, bar =true})
+      -- volume_master:update_master()
+      -- volume_master:set_master_control()
 
       local calendar = blingbling.calendar.new({type = "imagebox", image = beautiful.calendar_icon})
 
@@ -114,7 +114,7 @@ function panels_m:create_wiboxes(layouts, mainlauncher)
       local right_layout = wibox.layout.fixed.horizontal()
       if s == 1 then right_layout:add(wibox.widget.systray()) end
       right_layout:add(self.udisks_glue)
-      right_layout:add(volume_master)
+      -- right_layout:add(volume_master)
       if battery then right_layout:add(battery) end
       right_layout:add(calendar)
       right_layout:add(self.layoutbox[s])

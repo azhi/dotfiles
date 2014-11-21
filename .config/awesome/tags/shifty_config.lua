@@ -92,9 +92,18 @@ function shifty_config:load()
     {match = {"Qbittorrent"}, tag = "torrent"},
     {match = {"Virtualbox"}, tag = "7:vm"},
 
-    { match = {"MPlayer", "pinentry", "Gimp"}, float = true },
-    { match = {"Kshutdown", "polkit-kde-authentication-agent-1"}, float = true, intrusive = true, run = function (c) awful.placement.centered(c,nil) end },
-    { rule = { type = "dialog" }, float = true },
+    { match = {"MPlayer", "Gimp"}, float = true },
+    { match = {"Kshutdown", "polkit-kde-authentication-agent-1", "Pinentry-qt4"}, float = true, intrusive = true, run = function (c) awful.placement.centered(c,nil) end },
+    { match = {"Kmix"}, float = true, intrusive = true, run = function (c)
+      local g = c:geometry()
+      local w = screen[c.screen].workarea
+      g.width = 500
+      g.height = 300
+      g.x = w.width - g.width + w.x
+      g.y = w.y
+      c:geometry(g)
+    end },
+    { rule = { type = "dialog" }, float = true, run = function (c) awful.placement.centered(c,nil) end },
   }
 
   shifty.config.defaults = {
