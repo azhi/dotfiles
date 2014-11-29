@@ -1,0 +1,12 @@
+[submodule ".config/awesome/lib/shifty"]
+	path = .config/awesome/lib/shifty
+	url = https://github.com/cdump/awesome-shifty
+[submodule ".config/awesome/lib/cyclefocus"]
+	path = .config/awesome/lib/cyclefocus
+	url = git@github.com:blueyed/awesome-cyclefocus.git
+[submodule ".config/awesome/lib/assault"]
+	path = .config/awesome/lib/assault
+	url = git@github.com:NuckChorris/assault.git
+[submodule ".config/awesome/lib/blingbling"]
+	path = .config/awesome/lib/blingbling
+	url = git@github.com:cedlemo/blingbling.git

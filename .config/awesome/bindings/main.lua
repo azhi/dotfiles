@@ -2,8 +2,8 @@ local bindings_m = {}
 
 local awful = require("awful")
 local menubar = require("menubar")
-local shifty = require("lib/shifty")
-local cyclefocus = require("lib/cyclefocus")
+local shifty = require("shifty")
+local cyclefocus = require("cyclefocus")
 
 function bindings_m:load(mainmenu, promptbox)
   self:common_mouse(awful, mainmenu)

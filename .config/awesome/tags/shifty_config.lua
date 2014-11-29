@@ -3,7 +3,7 @@ local shifty_config = {}
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
-local shifty = require("lib/shifty")
+local shifty = require("shifty")
 
 function shifty_config:load()
   local l = awful.layout.suit

@@ -1,6 +1,10 @@
 local awful = require("awful")
 awful.rules = require("awful.rules")
-local shifty = require("lib/shifty")
+
+package.path = package.path .. ';' .. awful.util.getdir("config") .. '/lib/?.lua;' ..
+  awful.util.getdir("config") .. '/lib/?/init.lua'
+
+local shifty = require("shifty")
 shifty.config.sloppy = false
 
 error_handling = require("error_handling")

@@ -4,7 +4,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local blingbling = require("blingbling")
-local assault = require("lib/assault")
+local assault = require("assault/awesomewm/assault")
 
 function panels_m:load(layouts, mainlauncher)
   self:set_common_params()
