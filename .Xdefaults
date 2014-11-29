@@ -28,6 +28,11 @@ URxvt*fading:               20
 URxvt*urgentOnBell:         true
 URxvt*visualBell:           true
 
+URxvt*keysym.Control-Up:    \033[1;5A
+URxvt*keysym.Control-Down:  \033[1;5B
+URxvt*keysym.Control-Left:  \033[1;5D
+URxvt*keysym.Control-Right: \033[1;5C
+
 ! Set scrollbar style to rxvt, plain, next or xterm. plain is the authors favourite.
 URxvt*scrollstyle:          rxvt
 URxvt*scrollBar_right:      true

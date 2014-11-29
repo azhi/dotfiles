@@ -13,9 +13,9 @@ zle -N predict-on
 source ~/.zsh/git-prompt/zshrc.sh
 if [ "$EUID" = "0" ]; then
   PROMPT=$'%{\e[1;31m%}[%{\e[1;33m%}azhi %{\e[1;33m%}%~%{\e[1;31m%}]%{\e[0m%}$(git_super_status)%{\e[1;33m%}#%{\e[0m%} '
-	RPROMPT=$'%{\e[1;31m%}[%{\e[1;33m%}%T%{\e[1;31m%}]%{\e[0m%}'
+  RPROMPT=$'%{\e[1;31m%}[%{\e[1;33m%}%T%{\e[1;31m%}]%{\e[0m%}'
 else
-	PROMPT=$'%{\e[1;32m%}[%{\e[1;33m%}azhi %{\e[1;33m%}%~%{\e[1;32m%}]%{\e[0m%}$(git_super_status)%{\e[1;33m%}>%{\e[0m%} '
+  PROMPT=$'%{\e[1;32m%}[%{\e[1;33m%}azhi %{\e[1;33m%}%~%{\e[1;32m%}]%{\e[0m%}$(git_super_status)%{\e[1;33m%}>%{\e[0m%} '
   RPROMPT=$'%{\e[1;32m%}[%{\e[1;33m%}%T%{\e[1;32m%}]%{\e[0m%}'
 fi
 
@@ -26,9 +26,9 @@ export EDITOR
 bindkey -e
 
 case $TERM in (xterm*|rxvt)
-    precmd () { print -Pn "\e]0;%n@%m: %~\a" }
-    preexec () { print -Pn "\e]0;%n@%m: $1\a" }
-    ;;
+  precmd () { print -Pn "\e]0;%n@%m: %~\a" }
+  preexec () { print -Pn "\e]0;%n@%m: $1\a" }
+  ;;
 esac
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
@@ -113,6 +113,18 @@ source  ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 [[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
 [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
+# ctrl-word jumps
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+# shift-tab : go backward in menu (invert of tab)
+bindkey '^[[Z' reverse-menu-complete
+# alt-1 : insert sudo at the start of the line
+insert_sudo () { zle beginning-of-line; zle -U "sudo " }
+zle -N insert-sudo insert_sudo
+bindkey '^[1' insert-sudo
+# Page-up/down : complete current command line using history
+bindkey '^[[5~' history-search-backward
+bindkey '^[[6~' history-search-forward
 
 # aliases
 alias ls='ls --color=auto'
