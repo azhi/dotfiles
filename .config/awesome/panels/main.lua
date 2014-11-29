@@ -96,8 +96,10 @@ function panels_m:create_wiboxes(layouts, mainlauncher)
 
       -- enable_battery_widget = true
       enable_battery_widget = false
+      local battery = {}
       if enable_battery_widget then
-        local battery = assault({
+        battery = assault({
+          adapter = "AC0",
           critical_level = 0.15,
           critical_color = "#ff0000",
           charging_color = "#00ff00"
