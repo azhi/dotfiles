@@ -56,9 +56,9 @@ end
 
 function bindings_m:common_keyboard(awful, shifty, menubar, promptbox)
   globalkeys = awful.util.table.join(
-      awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-      awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-      awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+      awful.key({ modkey,           }, "Left",   function () awful.tag.viewprev();        raise_last_client(awful.tag) end),
+      awful.key({ modkey,           }, "Right",  function () awful.tag.viewnext();        raise_last_client(awful.tag) end),
+      awful.key({ modkey,           }, "Escape", function () awful.tag.history.restore(); raise_last_client(awful.tag) end),
       awful.key({modkey}, "t", function() shifty.add({ rel_index = 1 }) end),
       awful.key({modkey, "Control"},
                   "t",
@@ -122,11 +122,7 @@ function bindings_m:common_keyboard(awful, shifty, menubar, promptbox)
                               function()
                                   tag = shifty.getpos(i)
                                   awful.tag.viewonly(tag)
-                                  local last_client = awful.client.focus.history.get(awful.tag.getscreen(tag), 0)
-                                  if last_client then
-                                      client.focus = last_client
-                                      last_client:raise()
-                                  end
+                                  raise_last_client(tag)
                               end))
       globalkeys = awful.util.table.join(
                           globalkeys,
@@ -162,6 +158,14 @@ function bindings_m:common_keyboard(awful, shifty, menubar, promptbox)
   root.keys(globalkeys)
 
   return globalkeys
+end
+
+function raise_last_client(tag)
+  local last_client = awful.client.focus.history.get(awful.tag.getscreen(tag), 0)
+  if last_client then
+    client.focus = last_client
+    last_client:raise()
+  end
 end
 
 return bindings_m

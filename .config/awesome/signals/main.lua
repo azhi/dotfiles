@@ -26,6 +26,14 @@ function signals_m:load()
       end
   end)
 
+  client.connect_signal("unmanage", function(c)
+    local last_client = awful.client.focus.history.get(awful.tag.getscreen(c:tags()[0]), 0)
+    if last_client then
+      client.focus = last_client
+      last_client:raise()
+    end
+  end)
+
   client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
   client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 end

@@ -34,6 +34,7 @@ function shifty_config:load()
         exclusive = true,
         spawn = "run_once skype",
         layout = l.tile,
+        mwfact = 0.5,
         position = 3,
     },
     ["4:fs"] = {
@@ -85,7 +86,10 @@ function shifty_config:load()
     {match = {"URxvt"}, tag = "1:term"},
     {match = {"Iceweasel.*", "Firefox.*", "Chromium.*", "Chrome.*"}, tag = "2:www"},
     {match = {"Skype"}, tag = "3:skype"},
-    {match = {"Doublecmd"}, tag = "4:fs"},
+    -- double commander dialogs
+    {match = {class={"Doublecmd"}}, float = true, run = function (c) awful.placement.centered(c,nil) end },
+    -- double commander main window
+    {match = {name={"Double Commander"}}, float = false, tag = "4:fs"},
     {match = {"Gvim"}, tag = "5:gvim"},
     {match = {"libreoffice", "Okular"}, tag = "6:docs"},
     {match = {"Clementine"}, tag = "music"},
@@ -93,7 +97,14 @@ function shifty_config:load()
     {match = {"Virtualbox"}, tag = "7:vm"},
 
     { match = {"MPlayer", "Gimp"}, float = true },
-    { match = {"Kshutdown", "polkit-kde-authentication-agent-1", "Pinentry-qt4"}, float = true, intrusive = true, run = function (c) awful.placement.centered(c,nil) end },
+    { match = {"Kshutdown", "polkit-kde-authentication-agent-1", "Pinentry-qt4", "Ksnapshot"}, float = true, intrusive = true, run = function (c) awful.placement.centered(c,nil) end },
+    { match = {"Keepassx"}, float = true, intrusive = true, run = function (c)
+      local g = c:geometry()
+      g.width = 700
+      g.height = 500
+      c:geometry(g)
+      awful.placement.centered(c,nil)
+    end},
     { match = {"Kmix"}, float = true, intrusive = true, run = function (c)
       local g = c:geometry()
       local w = screen[c.screen].workarea
