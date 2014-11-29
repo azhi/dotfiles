@@ -21,7 +21,7 @@ URxvt*color15:    rgb:ff/ff/ff
 URxvt*background: rgb:1a/1a/1a
 URxvt*foreground: rgb:d6/d6/d6
 URxvt*cursorColor: 8
-URxvt*cursorColor2: 8
+URxvt*cursorColor2: 0
 ! URxvt*pointerColor: white
 ! URxvt*pointerColor2: white
 URxvt*fading:               20
