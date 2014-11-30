@@ -117,7 +117,7 @@ function panels_m:create_wiboxes(layouts, mainlauncher)
       if s == 1 then right_layout:add(wibox.widget.systray()) end
       right_layout:add(self.udisks_glue)
       -- right_layout:add(volume_master)
-      if battery then right_layout:add(battery) end
+      if enable_battery_widget then right_layout:add(battery) end
       right_layout:add(calendar)
       right_layout:add(self.layoutbox[s])
       right_layout:add(shutdown)
