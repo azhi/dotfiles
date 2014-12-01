@@ -58,6 +58,36 @@ function bindings_m:common_keyboard(awful, shifty, menubar, promptbox)
   globalkeys = awful.util.table.join(
       awful.key({ modkey,           }, "Left",   function () awful.tag.viewprev();        raise_last_client(awful.tag) end),
       awful.key({ modkey,           }, "Right",  function () awful.tag.viewnext();        raise_last_client(awful.tag) end),
+      awful.key({ modkey, "Shift"   }, "Left",   function ()
+        if client.focus then
+            local i = awful.tag.getidx()
+            local screen = mouse.screen
+            local next_i = i - 1;
+            local tags = awful.tag.gettags(screen)
+            if next_i < 1 then
+              next_i = next_i + #tags
+            end
+            local t = tags[next_i]
+            awful.client.movetotag(t)
+            awful.tag.viewonly(t)
+            raise_last_client(t)
+        end
+      end),
+      awful.key({ modkey, "Shift"   }, "Right",  function ()
+        if client.focus then
+            local i = awful.tag.getidx()
+            local screen = mouse.screen
+            local next_i = i + 1;
+            local tags = awful.tag.gettags(screen)
+            if next_i > #tags then
+              next_i = next_i - #tags
+            end
+            local t = tags[next_i]
+            awful.client.movetotag(t)
+            awful.tag.viewonly(t)
+            raise_last_client(t)
+        end
+      end),
       awful.key({ modkey,           }, "Escape", function () awful.tag.history.restore(); raise_last_client(awful.tag) end),
       awful.key({modkey}, "t", function() shifty.add({ rel_index = 1 }) end),
       awful.key({modkey, "Control"},
