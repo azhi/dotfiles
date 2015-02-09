@@ -19,10 +19,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 " fuzzy file open
 Plugin 'kien/ctrlp.vim'
 " tags list navigation
-" WARN: UNUSED
 Plugin 'vim-scripts/taglist.vim'
-" buffregator (managing buffers)
-Plugin 'jeetsukumaran/vim-buffergator'
 " session & tabs manager
 Plugin 'szw/vim-ctrlspace'
 
@@ -50,6 +47,7 @@ Plugin 'Raimondi/delimitMate'
 " WARN: UNUSED
 Plugin 'scrooloose/vim-space'
 " url based hyperlinks for text files
+" WARN: UNUSED
 Plugin 'vim-scripts/utl.vim'
 " switch segments of text with predefined replacements. e.g. '' -> ""
 " WARN: UNUSED
@@ -73,9 +71,6 @@ Plugin 'tpope/vim-bundler'
 " rake integration
 " WARN: UNUSED
 Plugin 'tpope/vim-rake'
-" apidock.com docs integration
-" WARN: UNUSED
-Plugin 'mileszs/apidock.vim'
 
 " other struff
 "
