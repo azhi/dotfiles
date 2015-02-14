@@ -16,17 +16,12 @@ nmap <leader>p :NERDTreeFind<CR>
 let g:ctrlp_map = '<leader>,'
 let g:ctrlp_cmd = 'CtrlP'
 
-nmap <leader>l :CtrlPLine<cr>
-nmap <leader>b :CtrlPBuff<cr>
-nmap <leader>m :CtrlPBufTag<cr>
-nmap <leader>M :CtrlPBufTagAll<cr>
-
 let g:ctrlp_clear_cache_on_exit = 1
 " ctrlp leaves stale caches behind if there is another vim process runnin
 " which didn't use ctrlp. so we clear all caches on each new vim invocation
 cal ctrlp#clra()
 
-let g:ctrlp_max_height = 80
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
 
 " jump to buffer in the same tab if already open
 let g:ctrlp_switch_buffer = 1
@@ -43,11 +38,6 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'mixed', 'line']
 
 " ------------------ taglist ------------------
 nnoremap <silent> <F8> :TlistToggle<CR>
-let Tlist_Auto_Open = 1
-let Tlist_Show_One_File = 1
-let Tlist_Use_Right_Window = 1
-let Tlist_WinWidth = 30
-let Tlist_Enable_Fold_Column = 0
 
 " ------------------ vim-indent-object ------------------
 " add Markdown to the list of indentation based languages
@@ -77,7 +67,7 @@ nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R>
 
 " ------------------ vim-rails ------------------
 " completing Rails hangs a lot
-"let g:rubycomplete_rails = 1
+" let g:rubycomplete_rails = 1
 
 " ------------------ yankring ------------------
 let g:yankring_replace_n_pkey = '<leader>['
@@ -102,6 +92,10 @@ let g:indent_guides_color_change_percent = 5
 " ------------------ gundo ------------------
 nmap <leader>u :GundoToggle<CR>
 let g:gundo_close_on_revert = 1
+
+" ------------------ tcomment ------------------
+nmap // :TComment<CR>
+vmap // :TComment<CR>
 
 " ------------------ vimclojure ------------------
 let g:vimclojure#ParenRainbow = 1

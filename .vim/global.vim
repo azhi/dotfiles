@@ -29,6 +29,7 @@ set laststatus=2        " always show the status line
 set listchars=tab:▷⋅,trail:·
 set list
 set noerrorbells visualbell t_vb=    " no beeps
+autocmd GUIEnter * set visualbell t_vb=
 
 " highlight spell errors
 hi SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
