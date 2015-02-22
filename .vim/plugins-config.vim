@@ -55,6 +55,15 @@ if has("mac")
 end
 nmap <leader>o :Utl
 
+" ------------------ splice ------------------
+let g:splice_initial_diff_grid = 1
+let g:splice_initial_diff_compare = 1
+
+let g:splice_initial_scrollbind_grid = 1
+let g:splice_initial_scrollbind_loupe = 1
+let g:splice_initial_scrollbind_compare = 1
+let g:splice_initial_scrollbind_path = 1
+
 " ------------------ switch ------------------
 let g:switch_mapping = "_"
 
