@@ -1,1 +1,1 @@
-dotvim/vimrc
+.vim/vimrc
