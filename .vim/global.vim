@@ -13,6 +13,12 @@ if has('multi_byte')
   set encoding=utf-8
 end
 
+" russian layout support
+set keymap=russian-jcukenwin
+set iminsert=0
+set imsearch=0
+highlight lCursor guifg=NONE guibg=Cyan
+
 " presentation settings
 set number              " precede each line with its line number
 set numberwidth=3       " number of culumns for line numbers
@@ -88,7 +94,11 @@ set undofile
 set foldcolumn=0        " columns for folding
 set foldmethod=indent
 set foldlevel=9
-set nofoldenable        "dont fold by default "
+set nofoldenable        "dont fold by default
+
+" set spell checking for text and tex files
+autocmd FileType text set spell spelllang=ru_ru,en_us
+autocmd FileType tex set spell spelllang=ru_ru,en_us
 
 " extended '%' mapping for if/then/else/end etc
 runtime macros/matchit.vim
