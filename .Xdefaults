@@ -39,6 +39,10 @@ URxvt*scrollBar_right:      true
 URxvt*scrollTtyKeypress:    true
 URxvt*saveLines:            10240
 
+URxvt*scrollTtyOutput:      false
+URxvt*scrollWithBuffer:     true
+URxvt*scrollTtyKeypress:    true
+
 URxvt*transparent: true
 URxvt*tintColor: rgb:2a/2a/2a
 
