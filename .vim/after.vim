@@ -4,4 +4,6 @@
 source ~/.vim/bindings.vim
 source ~/.vim/plugins-override.vim
 
+au BufWrite * :Autoformat
+
 cd ~/develop

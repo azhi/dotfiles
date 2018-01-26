@@ -109,3 +109,7 @@ vmap // :TComment<CR>
 " ------------------ vimclojure ------------------
 let g:vimclojure#ParenRainbow = 1
 let g:vimclojure#DynamicHighlighting = 1
+
+" ------------------ autoformat ------------------
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0

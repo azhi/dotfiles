@@ -100,6 +100,8 @@ Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-repeat'
 " hide .gitignore-d files from vim
 Plugin 'vitaly/vim-gitignore'
+" provide support for autoformat with lang-specific lints
+Plugin 'Chiel92/vim-autoformat'
 
 " syntax support
 "
