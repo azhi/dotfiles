@@ -120,6 +120,8 @@ Plugin 'vim-scripts/VimClojure'
 Plugin 'slim-template/vim-slim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'wting/rust.vim'
+Plugin 'fatih/vim-go'
+Plugin 'leafgarland/typescript-vim'
 
 call vundle#end()
 filetype plugin indent on
