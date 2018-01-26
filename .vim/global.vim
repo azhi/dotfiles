@@ -100,6 +100,8 @@ set nofoldenable        "dont fold by default
 autocmd FileType text set spell spelllang=ru_ru,en_us
 autocmd FileType tex set spell spelllang=ru_ru,en_us
 
+au BufRead,BufNewFile *.skim set filetype=slim
+
 " extended '%' mapping for if/then/else/end etc
 runtime macros/matchit.vim
 
