@@ -1,9 +1,8 @@
 " This file is loaded from after/plugin/after.vim
 " which means it loads AFTER the rest of the plugins
 
-source ~/.vim/bindings.vim
-source ~/.vim/plugins-override.vim
+source ~/.config/nvim/bindings.vim
+source ~/.config/nvim/plugins-override.vim
 
-au BufWrite * :Autoformat
-
+autocmd vimenter * DefxToggle
 cd ~/develop

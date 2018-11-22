@@ -1,3 +1,6 @@
+" path to ruby wrapper
+let g:ruby_host_prog = '~/.gem/ruby/2.5.0/bin/neovim-ruby-host'
+
 colorscheme darkblue2
 
 " be 'modern'
@@ -6,8 +9,6 @@ syntax on
 filetype plugin indent on
 
 " utf-8/unicode support
-" requires Vim to be compiled with Multibyte support, you can check that by
-" running `vim --version` and checking for +multi_byte.
 if has('multi_byte')
   scriptencoding utf-8
   set encoding=utf-8
@@ -23,7 +24,7 @@ highlight lCursor guifg=NONE guibg=Cyan
 set number              " precede each line with its line number
 set numberwidth=3       " number of culumns for line numbers
 set wrap
-set textwidth=79
+set textwidth=119
 set formatoptions=qrn1
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
@@ -31,11 +32,10 @@ set ruler               " line and column number of the cursor position
 set linespace=2         " some more space between lines
 set wildmenu            " enhanced command completion
 set laststatus=2        " always show the status line
-"set listchars=tab:▷⋅,trail:·,eol:$
-set listchars=tab:▷⋅,trail:·
-set list
-set noerrorbells visualbell t_vb=    " no beeps
-autocmd GUIEnter * set visualbell t_vb=
+"set list listchars=tab:▷⋅,trail:·,eol:$
+set list listchars=tab:»·,trail:·      " enable showing invisible characters
+" set noerrorbells visualbell t_vb=    " no beeps
+" autocmd GUIEnter * set visualbell t_vb=
 
 " highlight spell errors
 hi SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
@@ -48,13 +48,11 @@ set shell=/bin/bash     " use bash for shell commands
 set hidden              " enable multiple modified buffers
 set history=10000
 set autoread            " automatically read file that has been changed on disk and doesn't have changes in vim
-set backspace=indent,eol,start
-set guioptions-=T       " disable toolbar
-set completeopt=menuone,preview
-let bash_is_sh=1        " syntax shell files as bash scripts
+set guioptions+=a       " try to enable filling * buffer automatically on visual selection
+set completeopt=menuone,preview " show autocomplete menu even for one option
 set modelines=5         " number of lines to check for vim: directives at the start/end of file
 
-set tabstop=2           " number of spaces in a tab
+set tabstop=4           " number of spaces in a tab
 set shiftwidth=2        " number of spaces for indent
 set softtabstop=2
 set expandtab
@@ -69,7 +67,6 @@ set cinoptions=:0,(s,u0,U1,g0,t0 " some indentation options ':h cinoptions' for 
 if has("mouse")
   set mouse=a
 endif
-set mousehide           " Hide mouse pointer on insert mode."
 
 " search settings
 set incsearch           " Incremental search
@@ -101,9 +98,6 @@ autocmd FileType text set spell spelllang=ru_ru,en_us
 autocmd FileType tex set spell spelllang=ru_ru,en_us
 
 au BufRead,BufNewFile *.skim set filetype=slim
-
-" extended '%' mapping for if/then/else/end etc
-runtime macros/matchit.vim
 
 let mapleader = ","
 let maplocalleader = "\\"
