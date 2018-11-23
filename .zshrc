@@ -77,6 +77,7 @@ setopt check_jobs
 autoload -Uz compinit
 compinit
 
+source /usr/share/zsh/site-functions/git-flow-completion.zsh
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
@@ -143,3 +144,28 @@ alias gsp='git stash pop'
 alias gss='git stash save'
 alias gdh='git diff HEAD'
 
+dotenv() {
+  bash -c "
+  path=\$(pwd)
+  while [[ \"\$path\" != \"\" && ! -e \"\$path/.env\" ]]; do
+    path=\${path%/*}
+  done
+
+  if [[ -e \"\$path/.env\" ]]; then
+    set -a
+    source \"\$path/.env\"
+    set +a
+    exec $*
+  else
+    echo \"Error: .env not found!\"
+    exit 1
+  fi
+  "
+}
+
+
+export PATH="$HOME/bin:$PATH"
+export PATH="$PATH:$HOME/.rvm/bin"
+# Add asdf integration
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
