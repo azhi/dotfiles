@@ -19,7 +19,7 @@ else
   RPROMPT=$'%{\e[1;32m%}[%{\e[1;33m%}%T%{\e[1;32m%}]%{\e[0m%}'
 fi
 
-EDITOR=vim
+EDITOR=nvim
 export EDITOR
 
 # Use emacs keybindings even if our EDITOR is set to vi
@@ -41,12 +41,6 @@ setopt EXTENDED_HISTORY HIST_SAVE_NO_DUPS HIST_EXPIRE_DUPS_FIRST HIST_FIND_NO_DU
 setopt CORRECT MENUCOMPLETE ALL_EXPORT
 
 setopt histignorealldups sharehistory
-
-# default apps
-alias -s {avi,mpeg,mpg,mov,m2v,mkv,m4a,wmv}=smplayer
-alias -s {odt,doc,docx,sxw,rtf,ppt,pptx}=libreoffice
-alias -s {ogg,mp3,wav,wma}=mplayer
-alias -s pdf=okular
 
 # Use autocd
 setopt autocd
@@ -121,6 +115,7 @@ bindkey '^[[Z' reverse-menu-complete
 # alt-1 : insert sudo at the start of the line
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
+
 bindkey '^[1' insert-sudo
 # Page-up/down : complete current command line using history
 bindkey '^[[5~' history-search-backward
@@ -143,3 +138,5 @@ alias gsp='git stash pop'
 alias gss='git stash save'
 alias gdh='git diff HEAD'
 
+source ~/.zsh/dotenv.sh
+source ~/.zsh/env.sh
