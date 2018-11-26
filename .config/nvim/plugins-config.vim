@@ -141,9 +141,9 @@ function! AutoMixFormat()
     execute 'noautocmd update | MixFormat'
   endif
 endfunction
-
 autocmd FileType elixir
-\  autocmd BufWritePre <buffer> call AutoMixFormat()
+\  augroup mix_format | exe "autocmd! mix_format BufWritePre <buffer> call AutoMixFormat()" | augroup END
+
 command MixFormatDisable let b:autocmd_disable_mix_format = 1
 command MixFormatEnable let b:autocmd_disable_mix_format = 0
 command MixFormatGlobalDisable let g:autocmd_disable_mix_format = 1
