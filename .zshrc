@@ -19,6 +19,16 @@ else
   RPROMPT=$'%{\e[1;32m%}[%{\e[1;33m%}%T%{\e[1;32m%}]%{\e[0m%}'
 fi
 
+autoload -Uz add-zsh-hook
+
+function xterm_title_precmd () {
+  print -Pn '\e]2;%n@%m\a'
+}
+
+if [[ "$TERM" == (screen*|xterm*|rxvt*) ]]; then
+  add-zsh-hook -Uz precmd xterm_title_precmd
+fi
+
 EDITOR=nvim
 export EDITOR
 
