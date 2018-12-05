@@ -149,4 +149,5 @@ alias gss='git stash save'
 alias gdh='git diff HEAD'
 
 source ~/.zsh/dotenv.sh
+source ~/.zsh/kube-exec-wrappers.sh
 source ~/.zsh/env.sh
