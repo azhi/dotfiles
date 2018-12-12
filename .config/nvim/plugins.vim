@@ -45,6 +45,7 @@ Plug 'slim-template/vim-slim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'leafgarland/typescript-vim'
 Plug 'elmcast/elm-vim'
+Plug 'fatih/vim-go'
 
 " WARN: UNUSED
 " text object based on indent level (ai, ii)
@@ -76,6 +77,5 @@ Plug 'elmcast/elm-vim'
 " Plug 'tpope/vim-haml'
 " Plug 'kchmck/vim-coffee-script'
 " Plug 'wting/rust.vim'
-" Plug 'fatih/vim-go'
 
 call plug#end()
