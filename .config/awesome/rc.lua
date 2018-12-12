@@ -134,6 +134,64 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
+memwarntooltip = awful.tooltip({ })
+
+memwarn = conky.widget({
+  icon = gears.filesystem.get_configuration_dir() .. "icons/widgets/ram.png",
+  conky = "${memeasyfree}",
+  background = { bg = beautiful.bg_systray },
+
+  updater = function(conky_update, conky_wibox, _, _, background)
+    memwarntooltip:set_markup("<span size='x-large'>" .. conky_update .. "</span>")
+    local freemem, suffix = conky_update:match("^([%d.]+)([GMKB])$")
+    freemem = tonumber(freemem)
+
+    -- convert freemem to megabytes
+    if suffix == "G" then
+      freemem = freemem * 1024
+    elseif suffix == "K" then
+      freemem = freemem / 1024
+    elseif suffix == "B" then
+      freemem = freemem / 1024 / 1024
+    end
+
+    local text = nil
+    if freemem > 8192 then
+      text = ">8G"
+    elseif freemem > 5120 then
+      text = ">4G"
+    elseif freemem > 2048 then
+      text = ">2G"
+    elseif freemem > 1024 then
+      text = ">1G"
+    elseif freemem > 512 then
+      text = ">0.5G"
+    else
+      log = math.log(freemem, 2)
+      if log > 0 then
+        lower = math.floor(2 ^ math.floor(log))
+        upper = math.floor(2 ^ (math.floor(log) + 1))
+        if (freemem - lower) < (upper - freemem) then
+          text = tostring(lower) .. "M"
+        else
+          text = tostring(upper) .. "M"
+        end
+      else
+        text = tostring(math.floor(freemem)) .. "M"
+      end
+    end
+    conky_wibox:set_markup("<span color='white'>".. text .. "</span>")
+
+    if freemem < 500 then
+      background.bg = "red"
+    else
+      background.bg = beautiful.bg_systray
+    end
+  end
+})
+
+memwarntooltip:add_to_object(memwarn)
+
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%a %b %d, %H:%M", 10)
@@ -410,6 +468,7 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            memwarn,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
