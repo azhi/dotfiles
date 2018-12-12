@@ -1,3 +1,6 @@
 [submodule ".config/awesome/vendor/tyrannical"]
 	path = .config/awesome/vendor/tyrannical
 	url = git@github.com:Elv13/tyrannical.git
+[submodule ".config/awesome/vendor/conky"]
+	path = .config/awesome/vendor/conky
+	url = git@github.com:varingst/awesome-conky.git

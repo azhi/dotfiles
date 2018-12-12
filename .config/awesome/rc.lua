@@ -15,7 +15,7 @@ package.path = package.path .. ';' .. awful.util.getdir("config") .. '/vendor/?.
   awful.util.getdir("config") .. '/vendor/?/init.lua'
 
 local tyrannical = require("tyrannical")
-local inspect = require("inspect")
+local conky = require("conky")
 
 local function run_once(spawn_cmd, name)
   name = name or spawn_cmd
@@ -310,7 +310,7 @@ local tyrannical_tags = {
     name        = "fallback",
     icon        = gears.filesystem.get_configuration_dir() .. "icons/tags/other.png",
     icon_only   = true,
-    init        = false,
+    init        = true,
     exclusive   = false,
     layout      = awful.layout.suit.tile,
     fallback    = true,
@@ -588,7 +588,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
 
-    awful.key({ }, "Print", function () awful.spawn("flameshot gui") end)
+    awful.key({ }, "Print", function () awful.spawn("flameshot gui") end),
+    conky.show_key("F12")
 )
 
 clientkeys = gears.table.join(
@@ -860,6 +861,7 @@ awful.rules.rules = {
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+    conky.rules()
 }
 -- }}}
 
@@ -898,8 +900,6 @@ awful.tag.attached_connect_signal(nil, "property::selected", function (t)
       end
       t.screen.tyrannical_selected.relindex = relindex
     end
-    -- naughty.notify({ preset = naughty.config.presets.warn, title = "Index", text = inspect(t.screen.tyrannical_index) })
-    -- naughty.notify({ preset = naughty.config.presets.warn, title = "Selected", text = inspect(t.screen.tyrannical_selected) })
   end
 end)
 
