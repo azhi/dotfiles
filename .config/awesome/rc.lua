@@ -244,13 +244,6 @@ function blend_colors(color1, color2, part)
   v = v1 + (v2 - v1) * part
 
   ret = hsv_to_rgb(h, s, v)
-  naughty.notify({ preset = naughty.config.presets.critical,
-  title = "Debug",
-  text = tostring(h1) .. "-" .. tostring(s1) .. "-" .. tostring(v1) .. "\n" ..
-         tostring(h2) .. "-" .. tostring(s2) .. "-" .. tostring(v2) .. "\n" ..
-         tostring(h) .. "-" .. tostring(s) .. "-" .. tostring(v) .. "\n" ..
-         "= " .. tostring(ret)
-       })
 
   return ret
 end
