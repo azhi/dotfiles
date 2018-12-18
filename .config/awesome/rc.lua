@@ -136,12 +136,133 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 memwarntooltip = awful.tooltip({ })
 
+function rgb_to_hsv(hex_color)
+  local r, g, b = hex_color:match("^#(%x%x)(%x%x)(%x%x)$")
+  r = tonumber(r, 16) / 255
+  g = tonumber(g, 16) / 255
+  b = tonumber(b, 16) / 255
+
+  local max, min = math.max(r, g, b), math.min(r, g, b)
+  local h, s, v
+
+  if max == min then
+    h = 0
+  elseif max == r then
+    h = 0 + (g - b) / (max - min)
+  elseif max == g then
+    h = 2 + (b - r) / (max - min)
+  elseif max == b then
+    h = 4 + (r - g) / (max - min)
+  end
+  h = h * 60
+  if h < 0 then
+    h = h + 360
+  end
+
+  if max == 0 then
+    s = 0
+  else
+    s = (max - min) / max
+  end
+
+  v = max
+
+  return h, s, v
+end
+
+function hsv_to_rgb(h, s, v)
+  local r, g, b
+  if s == 0 then
+    r, g, b = v, v, v
+  else
+    local hh = math.floor( h / 60 )
+    local hh_offset = ( h / 60 ) - hh
+
+    local p = v * (1 - s)
+    local q = v * (1 - s * hh_offset)
+    local t = v * (1 - s * (1 - hh_offset))
+
+    if hh == 0 then
+      r, g, b = v, t, p
+    elseif hh == 1 then
+      r, g, b = q, v, p
+    elseif hh == 2 then
+      r, g, b = p, v, t
+    elseif hh == 3 then
+      r, g, b = p, q, v
+    elseif hh == 4 then
+      r, g, b = t, p, v
+    elseif hh == 5 then
+      r, g, b = v, p, q
+    end
+  end
+
+  local result = "#"
+  for _, comp in ipairs({r, g, b}) do
+    comp = math.floor(comp * 255)
+    comp_str = string.format("%x", comp)
+    if comp_str:len() == 1 then
+      comp_str = "0" .. comp_str
+    end
+    result = result .. comp_str
+  end
+
+  return result
+end
+
+function blend_colors(color1, color2, part)
+  local h1, s1, v1 = rgb_to_hsv(color1)
+  local h2, s2, v2 = rgb_to_hsv(color2)
+
+  local dh
+  if h1 == 0 and (v1 == 0 or s1 == 0) then
+    h1 = h2
+    dh = 0
+  else
+    local dh_candidates = {
+      h2 - h1,
+      360 + h2 - h1,
+      h2 - h1 - 360,
+    }
+    for _i, c in ipairs(dh_candidates) do
+      if not dh or math.abs(c) < math.abs(dh) then
+        dh = c
+      end
+    end
+  end
+
+  local h, s, v
+  h = h1 + part * dh
+  if h > 360 then
+    h = h - 360
+  end
+  if h < 0 then
+    h = h + 360
+  end
+
+  s = s1 + (s2 - s1) * part
+  v = v1 + (v2 - v1) * part
+
+  ret = hsv_to_rgb(h, s, v)
+  naughty.notify({ preset = naughty.config.presets.critical,
+  title = "Debug",
+  text = tostring(h1) .. "-" .. tostring(s1) .. "-" .. tostring(v1) .. "\n" ..
+         tostring(h2) .. "-" .. tostring(s2) .. "-" .. tostring(v2) .. "\n" ..
+         tostring(h) .. "-" .. tostring(s) .. "-" .. tostring(v) .. "\n" ..
+         "= " .. tostring(ret)
+       })
+
+  return ret
+end
+
 memwarn = conky.widget({
   icon = gears.filesystem.get_configuration_dir() .. "icons/widgets/ram.png",
   conky = "${memeasyfree}",
   background = { bg = beautiful.bg_systray },
 
   updater = function(conky_update, conky_wibox, _, _, background)
+    warn_color = "#c4b813"
+    critical_color = "#ef000b"
     memwarntooltip:set_markup("<span size='x-large'>" .. conky_update .. "</span>")
     local freemem, suffix = conky_update:match("^([%d.]+)([GMKB])$")
     freemem = tonumber(freemem)
@@ -182,8 +303,12 @@ memwarn = conky.widget({
     end
     conky_wibox:set_markup("<span color='white'>".. text .. "</span>")
 
-    if freemem < 500 then
-      background.bg = "red"
+    if freemem >= 512 and freemem < 1024 then
+      background.bg = blend_colors(beautiful.bg_systray, warn_color, 1 - (freemem - 512) / 512)
+    elseif freemem >= 128 and freemem < 512 then
+      background.bg = blend_colors(warn_color, critical_color, 1 - (freemem - 128) / 384)
+    elseif freemem < 128 then
+      background.bg = critical_color
     else
       background.bg = beautiful.bg_systray
     end
