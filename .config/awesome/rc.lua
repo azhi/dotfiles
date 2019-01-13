@@ -257,16 +257,21 @@ memwarn = conky.widget({
     warn_color = "#c4b813"
     critical_color = "#ef000b"
     memwarntooltip:set_markup("<span size='x-large'>" .. conky_update .. "</span>")
-    local freemem, suffix = conky_update:match("^([%d.]+)([GMKB])$")
+    local freemem, suffix = conky_update:match("^([%d\\.]+)(.+)$")
     freemem = tonumber(freemem)
 
     -- convert freemem to megabytes
-    if suffix == "G" then
+    if suffix == "G" or suffix == "GB" or suffix == "GiB" then
       freemem = freemem * 1024
-    elseif suffix == "K" then
+    elseif suffix == "K" or suffix == "KB" or suffix == "KiB" then
       freemem = freemem / 1024
     elseif suffix == "B" then
       freemem = freemem / 1024 / 1024
+    else
+      naughty.notify({ preset = naughty.config.presets.critical,
+                       title = "Error in conky mem widget",
+                       text = "Unknown memory size suffix: " .. tostring(suffix) })
+      return
     end
 
     local text = nil
