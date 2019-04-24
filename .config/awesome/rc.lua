@@ -263,6 +263,8 @@ memwarn = conky.widget({
     -- convert freemem to megabytes
     if suffix == "G" or suffix == "GB" or suffix == "GiB" then
       freemem = freemem * 1024
+    elseif suffix == "M" or suffix == "MB" or suffix == "MiB" then
+      -- do nothing
     elseif suffix == "K" or suffix == "KB" or suffix == "KiB" then
       freemem = freemem / 1024
     elseif suffix == "B" then
@@ -523,6 +525,20 @@ local tyrannical_tags = {
   },
   {
     position    = 10,
+    keyname     = "'z'",
+    keycode     = 52,
+    name        = "email",
+    icon        = gears.filesystem.get_configuration_dir() .. "icons/tags/email.png",
+    icon_only   = true,
+    init        = false,
+    exclusive   = true,
+    layout      = awful.layout.suit.max,
+    exec_once   = "trojita",
+    class       = { "trojita" },
+    tyrannical  = true
+  },
+  {
+    position    = 11,
     keyname     = "'q'",
     keycode     = 24,
     name        = "torrent",
@@ -534,7 +550,20 @@ local tyrannical_tags = {
     exec_once   = "qbittorrent",
     class       = { "Qbittorrent" },
     tyrannical  = true
-  }
+  },
+  {
+    position    = 12,
+    keyname     = "'d'",
+    keycode     = 40,
+    name        = "stats",
+    icon        = gears.filesystem.get_configuration_dir() .. "icons/tags/stats.png",
+    icon_only   = true,
+    layout      = awful.layout.suit.max,
+    init        = true,
+    exclusive   = true,
+    class       = { "Conky" },
+    tyrannical  = true
+  },
 }
 
 tyrannical.tags = tyrannical_tags
