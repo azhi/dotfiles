@@ -117,12 +117,32 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                   }
                         })
 
-shutdownmenu = awful.menu({ items = { { "shutdown", "systemctl poweroff" },
-                                      { "reboot", "systemctl reboot" },
-                                      { "lock", "dm-tool lock" },
-                                      { "sleep", "systemctl suspend" }
-                                    }
-                          })
+local rebootintomenu = nil
+local rebootintoconffile = io.open(gears.filesystem.get_configuration_dir() .. "rebootinto.conf", "r")
+if rebootintoconffile then
+  rebootintomenu = {}
+
+  while true do
+    local line = rebootintoconffile:read("*line")
+    if line == nil then break end
+    if line:sub(1, 1) ~= "#" then
+      local name, efi_num = line:match("^(.+),(.+)$")
+      table.insert(rebootintomenu, { name, "bash -c 'sudo efibootmgr -n " .. efi_num .. " && systemctl reboot'" })
+    end
+  end
+  rebootintoconffile:close()
+end
+
+local shutdownmenuitems = { { "shutdown", "systemctl poweroff" },
+                            { "reboot", "systemctl reboot" },
+                            { "lock", "dm-tool lock" },
+                            { "sleep", "systemctl suspend" }
+                          }
+if rebootintomenu then
+  table.insert(shutdownmenuitems, 3, {"reboot into", rebootintomenu})
+end
+
+shutdownmenu = awful.menu({ items = shutdownmenuitems })
 
 shutdownlauncher = awful.widget.launcher({ image = gears.filesystem.get_configuration_dir() .. "icons/widgets/shutdown.png",
                                            menu = shutdownmenu })
