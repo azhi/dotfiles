@@ -469,7 +469,7 @@ local tyrannical_tags = {
     init        = false,
     exclusive   = true,
     layout      = awful.layout.suit.tile,
-    class       = { "telegram-desktop", "Slack", "Weechat", "Skype" },
+    class       = { "telegram-desktop", "TelegramDesktop", "Slack", "Weechat", "Skype" },
     tyrannical  = true
   },
   {
