@@ -5,18 +5,27 @@ nmap <C-T> :NERDTreeToggle<CR>
 " ------------------ defx ------------------
 command DefxToggle Defx -toggle -split=vertical -winwidth=40 .
 nnoremap <C-P> :DefxToggle<CR>
+
+function! DefxChangeCwd(context) abort
+  silent execute 'chdir' fnameescape(a:context.cwd)
+endfunction
+
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
 nnoremap <silent><buffer><expr> <CR>
-      \ defx#do_action('open', 'wincmd w \| drop')
+      \ defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('open', 'wincmd w \| drop')
+nnoremap <silent><buffer><expr> C
+      \ defx#is_directory() ? defx#do_action('multi', [['open', 'wincmd w \| drop'], ['call', 'DefxChangeCwd']]) : ''
+nnoremap <silent><buffer><expr> h
+      \ defx#is_directory() ? defx#do_action('close_tree') : ''
+nnoremap <silent><buffer><expr> l
+      \ defx#is_directory() ? defx#do_action('open_tree') : ''
 nnoremap <silent><buffer><expr> c
       \ defx#do_action('copy')
 nnoremap <silent><buffer><expr> m
       \ defx#do_action('move')
 nnoremap <silent><buffer><expr> p
       \ defx#do_action('paste')
-nnoremap <silent><buffer><expr> l
-      \ defx#do_action('open', 'wincmd w \| drop')
 nnoremap <silent><buffer><expr> E
       \ defx#do_action('open', 'vsplit')
 nnoremap <silent><buffer><expr> P
@@ -54,31 +63,52 @@ nnoremap <silent><buffer><expr> <C-r>
 nnoremap <silent><buffer><expr> <C-g>
       \ defx#do_action('print')
 nnoremap <silent><buffer><expr> cd
-      \ defx#do_action('change_vim_cwd', 'cd')
+      \ defx#do_action('call', 'DefxChangeCwd')
 endfunction
 
 " ------------------ denite ------------------
 call denite#custom#alias('source', 'file/rec/git', 'file/rec')
 call denite#custom#var('file/rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', '<C-l>', '<denite:jump_to_next_by:path>', 'noremap')
-call denite#custom#map('insert', '<C-h>', '<denite:jump_to_previous_by:path>', 'noremap')
-call denite#custom#map('_', '<C-o>', '<denite:multiple_mappings:denite:do_action:open,denite:quit>', 'noremap')
-call denite#custom#map('normal', 'o', '<denite:multiple_mappings:denite:do_action:open,denite:quit>', 'noremap')
-call denite#custom#map('normal', 'n', '<denite:multiple_mappings:denite:do_action:vsplit,denite:quit>', 'noremap')
 
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <esc>
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  inoremap <silent><buffer> <esc> <Plug>(denite_filter_quit)
+  inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+  inoremap <silent><buffer> <C-j>
+  \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
+  inoremap <silent><buffer> <C-k>
+  \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+endfunction
 
 function! DeniteFile()
   if isdirectory(getcwd() . '/.git')
-    execute 'Denite file/rec/git'
+    execute 'Denite -start-filter file/rec/git'
   else
-    execute 'Denite file/rec'
+    execute 'Denite -start-filter file/rec'
   endif
 endfunction
 
 nmap <leader>, :call DeniteFile()<CR>
-nmap <leader>b :Denite buffer<CR>
+nmap <leader>b :Denite -start-filter buffer<CR>
 
 " make grep case-sensetive by default
 call denite#custom#var('grep', 'default_opts', ['-nH'])
@@ -102,9 +132,9 @@ function! DeniteGrep(ignoreCase, word)
   let ignoreflag = (a:ignoreCase || a:word == '') ? '-i' : ''
   let exactsuffix = a:word == '' ? '' : '/exact'
   if isdirectory(getcwd() . '/.git')
-    execute 'Denite -post-action=suspend -auto-resume -smartcase -mode=normal grep/git' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -post-action=suspend -auto-resume -smartcase grep/git' . exactsuffix . '::' . ignoreflag . ':' . a:word
   else
-    execute 'Denite -post-action=suspend -auto-resume -smartcase -mode=normal grep' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -post-action=suspend -auto-resume -smartcase grep' . exactsuffix . '::' . ignoreflag . ':' . a:word
   endif
 endfunction
 
