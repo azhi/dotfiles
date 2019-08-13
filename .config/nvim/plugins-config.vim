@@ -6,16 +6,12 @@ nmap <C-T> :NERDTreeToggle<CR>
 command DefxToggle Defx -toggle -split=vertical -winwidth=40 .
 nnoremap <C-P> :DefxToggle<CR>
 
-function! DefxChangeCwd(context) abort
-  silent execute 'chdir' fnameescape(a:context.cwd)
-endfunction
-
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
 nnoremap <silent><buffer><expr> <CR>
       \ defx#is_directory() ? defx#do_action('open_or_close_tree') : defx#do_action('open', 'wincmd w \| drop')
 nnoremap <silent><buffer><expr> C
-      \ defx#is_directory() ? defx#do_action('multi', [['open', 'wincmd w \| drop'], ['call', 'DefxChangeCwd']]) : ''
+      \ defx#is_directory() ? defx#do_action('multi', [['open', 'wincmd w \| drop'], 'change_vim_cwd']) : ''
 nnoremap <silent><buffer><expr> h
       \ defx#is_directory() ? defx#do_action('close_tree') : ''
 nnoremap <silent><buffer><expr> l
@@ -63,7 +59,7 @@ nnoremap <silent><buffer><expr> <C-r>
 nnoremap <silent><buffer><expr> <C-g>
       \ defx#do_action('print')
 nnoremap <silent><buffer><expr> cd
-      \ defx#do_action('call', 'DefxChangeCwd')
+      \ defx#do_action('change_vim_cwd')
 endfunction
 
 " ------------------ denite ------------------
