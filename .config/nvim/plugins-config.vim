@@ -1,3 +1,20 @@
+" ------------------ coc ------------------
+" extensions
+let g:coc_global_extensions = ['coc-json', 'coc-solargraph', 'coc-yaml', 'coc-sql', 'coc-syntax']
+
+" mappings
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
 " ------------------ nerdtree ------------------
 " Ctrl-P to Display the file browser tree
 nmap <C-T> :NERDTreeToggle<CR>
@@ -140,14 +157,6 @@ vmap <leader>f "my :call DeniteGrep(1, "<C-R>m")<CR>
 vmap <leader>g "my :call DeniteGrep(0, "<C-R>m")<CR>
 nmap <leader>h :call DeniteGrep(0, '')<CR>
 
-
-" ------------------ youcompleteme ------------------
-let g:ycm_complete_in_comments = 1 " enable completion in comments
-let g:ycm_collect_identifiers_from_tags_files = 0 " disable tags collecting (make sure to enable if ctags would be configured)
-let g:ycm_add_preview_to_completeopt = 1 " enable current completion additional info UI
-let g:ycm_autoclose_preview_window_after_completion = 1 " autoclose additional info UI
-let g:ycm_autoclose_preview_window_after_insertion = 1 " autoclose on leaving INSERT mode
-
 " ------------------ tcomment -------------------
 nmap // :TComment<CR>
 vmap // :TComment<CR>
@@ -175,10 +184,6 @@ command MixFormatEnable let b:autocmd_disable_mix_format = 0
 command MixFormatGlobalDisable let g:autocmd_disable_mix_format = 1
 command MixFormatGlobalEnable let g:autocmd_disable_mix_format = 0
 
-" -------------------- alchemist -------------------
-let g:alchemist_tag_map = '<C-f>'
-let g:alchemist_tag_stack_map = '<C-u>'
-
 " ------------------ json ------------------
 let g:vim_json_syntax_conceal = 0
 
@@ -195,3 +200,6 @@ let g:miniyank_delete_maxlines = 500
 let g:miniyank_maxitems = 20
 
 nmap <leader>y :Denite miniyank<cr>
+
+" ------------------ elm-vim -----------------
+let g:elm_format_autosave = 1

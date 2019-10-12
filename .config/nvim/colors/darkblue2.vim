@@ -102,4 +102,9 @@ hi Ignore               guifg=bg
 
 hi Error                gui=bold guifg=White guibg=Red
 
+hi! Pmenu ctermbg=236 ctermfg=251 guibg=#3d425b guifg=#c6c8d1
+hi! PmenuSbar ctermbg=236 guibg=#3d425b
+hi! PmenuSel ctermbg=240 ctermfg=255 guibg=#5b6389 guifg=#eff0f4
+hi! PmenuThumb ctermbg=251 guibg=#c6c8d1
+
 "hi Todo

@@ -1,7 +1,5 @@
 " path to ruby wrapper
-let g:ruby_host_prog = '~/.gem/ruby/2.5.0/bin/neovim-ruby-host'
-
-colorscheme darkblue2
+let g:ruby_host_prog = '~/.gem/ruby/2.6.0/bin/neovim-ruby-host'
 
 " be 'modern'
 set nocompatible

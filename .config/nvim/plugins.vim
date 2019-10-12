@@ -1,7 +1,10 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Theme
+Plug 'mhartington/oceanic-next'
+
 " Autocomplete
-Plug 'Valloric/YouCompleteMe'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " file, buffers, navigating
 Plug 'scrooloose/nerdtree'
@@ -32,8 +35,6 @@ Plug 'bfredl/nvim-miniyank'
 
 " run mix format
 Plug 'mhinz/vim-mix-format'
-" elixir support framework
-Plug 'slashmili/alchemist.vim'
 
 " syntax support
 "

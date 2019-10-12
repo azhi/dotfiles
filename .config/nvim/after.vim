@@ -4,5 +4,7 @@
 source ~/.config/nvim/bindings.vim
 source ~/.config/nvim/plugins-override.vim
 
+colorscheme OceanicNext
+
 autocmd vimenter * DefxToggle
 cd ~/develop

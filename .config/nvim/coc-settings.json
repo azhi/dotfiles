@@ -1,0 +1,20 @@
+{
+  "languageserver": {
+    "elixirLS": {
+      "command": "/usr/bin/elixir-ls",
+      "rootPatterns": ["mix.exs"],
+      "filetypes": ["elixir", "eelixir"]
+    },
+    "elmLS": {
+      "command": "/home/azhi/.npm-packages/bin/elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmPath": "/home/azhi/.npm-packages/bin/elm",
+        "elmFormatPath": "/home/azhi/.npm-packages/bin/elm-format",
+        "elmTestPath": "/home/azhi/.npm-packages/bin/elm-test",
+        "elmAnalyseTrigger": "change"
+      }
+    }
+  }
+}
