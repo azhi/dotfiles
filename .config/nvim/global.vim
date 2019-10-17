@@ -96,6 +96,7 @@ autocmd FileType text set spell spelllang=ru_ru,en_us
 autocmd FileType tex set spell spelllang=ru_ru,en_us
 
 au BufRead,BufNewFile *.skim set filetype=slim
+au BufRead,BufNewFile Jenkinsfile set filetype=groovy
 
 let mapleader = ","
 let maplocalleader = "\\"

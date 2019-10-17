@@ -31,3 +31,6 @@ nnoremap <C-l> <C-w>l
 
 " map ctrl-a to select all
 nmap <C-a> ggVG
+
+" make s a delete without spoiling register
+nnoremap s "_d
