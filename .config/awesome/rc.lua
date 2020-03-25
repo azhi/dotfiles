@@ -11,11 +11,10 @@ local xresources = require("beautiful.xresources")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
-package.path = package.path .. ';' .. awful.util.getdir("config") .. '/vendor/?.lua;' ..
-  awful.util.getdir("config") .. '/vendor/?/init.lua'
+package.path = package.path .. ';' .. awful.util.getdir("config") .. 'vendor/?.lua;' ..
+  awful.util.getdir("config") .. 'vendor/?/init.lua;' .. awful.util.getdir("config") .. 'vendor/?/?.lua'
 
 local tyrannical = require("tyrannical")
-local conky = require("conky")
 
 local function run_once(spawn_cmd, name)
   name = name or spawn_cmd
@@ -151,200 +150,58 @@ shutdownlauncher = awful.widget.launcher({ image = gears.filesystem.get_configur
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
+
+local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+local battery = battery_widget({
+  show_current_level = true,
+  warning_msg_icon = gears.filesystem.get_configuration_dir() .. "vendor/awesome-wm-widgets/battery-widget/spaceman.jpg",
+  display_notification = true
+})
+
+local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
+local weather_apikey_file = io.open(gears.filesystem.get_configuration_dir() .. "weather.apikey", "r")
+local weather = nil
+if weather_apikey_file then
+  local weather_apikey = weather_apikey_file:read("*line")
+  weather_apikey_file:close()
+  weather = weather_widget({ city = "Minsk,by", api_key = weather_apikey })
+  weather = wibox.container.margin(weather, 0, 10, 0, 0, beautiful.bg_color, false)
+else
+  weather = wibox.widget.textbox()
+end
+
+local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+local volumearc = volumearc_widget({
+  get_volume_cmd = "amixer sget Master",
+  inc_volume_cmd = "amixer sset Master 5%+",
+  dec_volume_cmd = "amixer sset Master 5%-",
+  tog_volume_cmd = "amixer sset Master toggle",
+})
+
+local brightnessarc_widget = require("awesome-wm-widgets.brightnessarc-widget.brightnessarc")
+local brightnessarc = brightnessarc_widget({
+    get_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh get',
+    inc_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh incr',
+    dec_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh decr',
+})
+
+local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
+local ram = ram_widget({})
+
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
-memwarntooltip = awful.tooltip({ })
-
-function rgb_to_hsv(hex_color)
-  local r, g, b = hex_color:match("^#(%x%x)(%x%x)(%x%x)$")
-  r = tonumber(r, 16) / 255
-  g = tonumber(g, 16) / 255
-  b = tonumber(b, 16) / 255
-
-  local max, min = math.max(r, g, b), math.min(r, g, b)
-  local h, s, v
-
-  if max == min then
-    h = 0
-  elseif max == r then
-    h = 0 + (g - b) / (max - min)
-  elseif max == g then
-    h = 2 + (b - r) / (max - min)
-  elseif max == b then
-    h = 4 + (r - g) / (max - min)
-  end
-  h = h * 60
-  if h < 0 then
-    h = h + 360
-  end
-
-  if max == 0 then
-    s = 0
-  else
-    s = (max - min) / max
-  end
-
-  v = max
-
-  return h, s, v
-end
-
-function hsv_to_rgb(h, s, v)
-  local r, g, b
-  if s == 0 then
-    r, g, b = v, v, v
-  else
-    local hh = math.floor( h / 60 )
-    local hh_offset = ( h / 60 ) - hh
-
-    local p = v * (1 - s)
-    local q = v * (1 - s * hh_offset)
-    local t = v * (1 - s * (1 - hh_offset))
-
-    if hh == 0 then
-      r, g, b = v, t, p
-    elseif hh == 1 then
-      r, g, b = q, v, p
-    elseif hh == 2 then
-      r, g, b = p, v, t
-    elseif hh == 3 then
-      r, g, b = p, q, v
-    elseif hh == 4 then
-      r, g, b = t, p, v
-    elseif hh == 5 then
-      r, g, b = v, p, q
-    end
-  end
-
-  local result = "#"
-  for _, comp in ipairs({r, g, b}) do
-    comp = math.floor(comp * 255)
-    comp_str = string.format("%x", comp)
-    if comp_str:len() == 1 then
-      comp_str = "0" .. comp_str
-    end
-    result = result .. comp_str
-  end
-
-  return result
-end
-
-function blend_colors(color1, color2, part)
-  local h1, s1, v1 = rgb_to_hsv(color1)
-  local h2, s2, v2 = rgb_to_hsv(color2)
-
-  local dh
-  if h1 == 0 and (v1 == 0 or s1 == 0) then
-    h1 = h2
-    dh = 0
-  else
-    local dh_candidates = {
-      h2 - h1,
-      360 + h2 - h1,
-      h2 - h1 - 360,
-    }
-    for _i, c in ipairs(dh_candidates) do
-      if not dh or math.abs(c) < math.abs(dh) then
-        dh = c
-      end
-    end
-  end
-
-  local h, s, v
-  h = h1 + part * dh
-  if h > 360 then
-    h = h - 360
-  end
-  if h < 0 then
-    h = h + 360
-  end
-
-  s = s1 + (s2 - s1) * part
-  v = v1 + (v2 - v1) * part
-
-  ret = hsv_to_rgb(h, s, v)
-
-  return ret
-end
-
-memwarn = conky.widget({
-  icon = gears.filesystem.get_configuration_dir() .. "icons/widgets/ram.png",
-  conky = "${memeasyfree}",
-  background = { bg = beautiful.bg_systray },
-
-  updater = function(conky_update, conky_wibox, _, _, background)
-    warn_color = "#c4b813"
-    critical_color = "#ef000b"
-    memwarntooltip:set_markup("<span size='x-large'>" .. conky_update .. "</span>")
-    local freemem, suffix = conky_update:match("^([%d\\.]+)(.+)$")
-    freemem = tonumber(freemem)
-
-    -- convert freemem to megabytes
-    if suffix == "G" or suffix == "GB" or suffix == "GiB" then
-      freemem = freemem * 1024
-    elseif suffix == "M" or suffix == "MB" or suffix == "MiB" then
-      -- do nothing
-    elseif suffix == "K" or suffix == "KB" or suffix == "KiB" then
-      freemem = freemem / 1024
-    elseif suffix == "B" then
-      freemem = freemem / 1024 / 1024
-    else
-      naughty.notify({ preset = naughty.config.presets.critical,
-                       title = "Error in conky mem widget",
-                       text = "Unknown memory size suffix: " .. tostring(suffix) })
-      return
-    end
-
-    local text = nil
-    if freemem > 8192 then
-      text = ">8G"
-    elseif freemem > 5120 then
-      text = ">4G"
-    elseif freemem > 2048 then
-      text = ">2G"
-    elseif freemem > 1024 then
-      text = ">1G"
-    elseif freemem > 512 then
-      text = ">0.5G"
-    else
-      log = math.log(freemem, 2)
-      if log > 0 then
-        lower = math.floor(2 ^ math.floor(log))
-        upper = math.floor(2 ^ (math.floor(log) + 1))
-        if (freemem - lower) < (upper - freemem) then
-          text = tostring(lower) .. "M"
-        else
-          text = tostring(upper) .. "M"
-        end
-      else
-        text = tostring(math.floor(freemem)) .. "M"
-      end
-    end
-    conky_wibox:set_markup("<span color='white'>".. text .. "</span>")
-
-    if freemem >= 512 and freemem < 1024 then
-      background.bg = blend_colors(beautiful.bg_systray, warn_color, 1 - (freemem - 512) / 512)
-    elseif freemem >= 128 and freemem < 512 then
-      background.bg = blend_colors(warn_color, critical_color, 1 - (freemem - 128) / 384)
-    elseif freemem < 128 then
-      background.bg = critical_color
-    else
-      background.bg = beautiful.bg_systray
-    end
-  end
-})
-
-memwarntooltip:add_to_object(memwarn)
 
 -- {{{ Wibar
 -- Create a textclock widget
+
 mytextclock = wibox.widget.textclock("%a %b %d, %H:%M", 10)
-local month_calendar = awful.widget.calendar_popup.month({
-  style_weekday = { border_width = 0 },
-  style_normal = { border_width = 0 }
-})
-month_calendar:attach( mytextclock, "tr" )
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+local cw = calendar_widget({ theme = "dark", placement = "top_right" })
+mytextclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -640,7 +497,11 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            memwarn,
+            weather,
+            volumearc,
+            brightnessarc,
+            ram,
+            battery,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
@@ -819,8 +680,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
 
-    awful.key({ }, "Print", function () awful.spawn("flameshot gui") end),
-    conky.show_key("F12")
+    awful.key({ }, "Print", function () awful.spawn("flameshot gui") end)
 )
 
 clientkeys = gears.table.join(
@@ -1087,12 +947,11 @@ awful.rules.rules = {
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
-    },
+    }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
-    conky.rules()
 }
 -- }}}
 

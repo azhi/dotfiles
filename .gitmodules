@@ -1,6 +1,9 @@
 [submodule ".config/awesome/vendor/tyrannical"]
 	path = .config/awesome/vendor/tyrannical
 	url = git@github.com:Elv13/tyrannical.git
-[submodule ".config/awesome/vendor/conky"]
-	path = .config/awesome/vendor/conky
-	url = git@github.com:varingst/awesome-conky.git
+[submodule ".config/awesome/vendor/awesome-wm-widgets"]
+	path = .config/awesome/vendor/awesome-wm-widgets
+	url = git@github.com:streetturtle/awesome-wm-widgets.git
+[submodule ".config/awesome/vendor/json"]
+	path = .config/awesome/vendor/json
+	url = git@github.com:rxi/json.lua.git
