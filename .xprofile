@@ -1,2 +1,5 @@
 export GOPATH="/home/azhi/develop/go"
+export PATH="$PATH:~/.gem/ruby/2.7.0/bin"
 source ~/.bashrc
+
+xbindkeys

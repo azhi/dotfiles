@@ -151,3 +151,14 @@ alias gdh='git diff HEAD'
 source ~/.zsh/dotenv.sh
 source ~/.zsh/kube-exec-wrappers.sh
 source ~/.zsh/env.sh
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+# NPM global packages in HOME
+NPM_PACKAGES="$HOME/.npm-packages"
+PATH="$NPM_PACKAGES/bin:$PATH"
+# Unset manpath so we can inherit from /etc/manpath via the `manpath` command
+unset MANPATH  # delete if you already modified MANPATH elsewhere in your configuration
+MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
