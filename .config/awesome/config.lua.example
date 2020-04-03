@@ -1,0 +1,31 @@
+local config = {}
+
+config.rebootinto = {
+  enabled = false,
+  items = {
+    { name = "Windows", efi_num = 0 },
+  }
+}
+
+config.widgets = {}
+
+config.widgets.weather = {
+  enabled = false,
+  city = "Montreal,ca",
+  apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+
+config.widgets.volume = {
+  enabled = false,
+  alsa_channel = "Master"
+}
+
+config.widgets.backlight = {
+  enabled = false
+}
+
+config.widgets.battery = {
+  enabled = false
+}
+
+return config

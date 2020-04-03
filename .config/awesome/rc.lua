@@ -1,3 +1,4 @@
+local config = require("config")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -117,19 +118,14 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                         })
 
 local rebootintomenu = nil
-local rebootintoconffile = io.open(gears.filesystem.get_configuration_dir() .. "rebootinto.conf", "r")
-if rebootintoconffile then
+if config.rebootinto.enabled then
   rebootintomenu = {}
 
-  while true do
-    local line = rebootintoconffile:read("*line")
-    if line == nil then break end
-    if line:sub(1, 1) ~= "#" then
-      local name, efi_num = line:match("^(.+),(.+)$")
-      table.insert(rebootintomenu, { name, "bash -c 'sudo efibootmgr -n " .. efi_num .. " && systemctl reboot'" })
-    end
+  for i = 1, #config.rebootinto.items do
+    local name = config.rebootinto.items[i].name
+    local efi_num = config.rebootinto.items[i].efi_num
+    table.insert(rebootintomenu, { name, "bash -c 'sudo efibootmgr -n " .. efi_num .. " && systemctl reboot'" })
   end
-  rebootintoconffile:close()
 end
 
 local shutdownmenuitems = { { "shutdown", "systemctl poweroff" },
@@ -151,39 +147,51 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 
-local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
-local battery = battery_widget({
-  show_current_level = true,
-  warning_msg_icon = gears.filesystem.get_configuration_dir() .. "vendor/awesome-wm-widgets/battery-widget/spaceman.jpg",
-  display_notification = true
-})
+local battery = nil
+if config.widgets.battery.enabled then
+  local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+  battery = battery_widget({
+    show_current_level = true,
+    warning_msg_icon = gears.filesystem.get_configuration_dir() .. "vendor/awesome-wm-widgets/battery-widget/spaceman.jpg",
+    display_notification = true
+  })
+else
+  battery = wibox.widget.textbox()
+end
 
-local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
-local weather_apikey_file = io.open(gears.filesystem.get_configuration_dir() .. "weather.apikey", "r")
 local weather = nil
-if weather_apikey_file then
-  local weather_apikey = weather_apikey_file:read("*line")
-  weather_apikey_file:close()
-  weather = weather_widget({ city = "Minsk,by", api_key = weather_apikey })
+if config.widgets.weather.enabled then
+  local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
+  weather = weather_widget({ city = config.widgets.weather.city, api_key = config.widgets.weather.apikey })
   weather = wibox.container.margin(weather, 0, 10, 0, 0, beautiful.bg_color, false)
 else
   weather = wibox.widget.textbox()
 end
 
-local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
-local volumearc = volumearc_widget({
-  get_volume_cmd = "amixer sget Master",
-  inc_volume_cmd = "amixer sset Master 5%+",
-  dec_volume_cmd = "amixer sset Master 5%-",
-  tog_volume_cmd = "amixer sset Master toggle",
-})
+local volumearc = nil
+if config.widgets.volume.enabled then
+  local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+  volumearc = volumearc_widget({
+    get_volume_cmd = "amixer sget " .. config.widgets.volume.alsa_channel,
+    inc_volume_cmd = "amixer sset " .. config.widgets.volume.alsa_channel .. " 5%+",
+    dec_volume_cmd = "amixer sset " .. config.widgets.volume.alsa_channel .. " 5%-",
+    tog_volume_cmd = "amixer sset " .. config.widgets.volume.alsa_channel .. " toggle",
+  })
+else
+  volumearc = wibox.widget.textbox()
+end
 
-local brightnessarc_widget = require("awesome-wm-widgets.brightnessarc-widget.brightnessarc")
-local brightnessarc = brightnessarc_widget({
-    get_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh get',
-    inc_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh incr',
-    dec_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh decr',
-})
+local brightnessarc = nil
+if config.widgets.backlight.enabled then
+  local brightnessarc_widget = require("awesome-wm-widgets.brightnessarc-widget.brightnessarc")
+  brightnessarc = brightnessarc_widget({
+      get_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh get',
+      inc_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh incr',
+      dec_brightness_cmd = gears.filesystem.get_configuration_dir() .. 'backlight_wrapper.sh decr',
+  })
+else
+  brightnessarc = wibox.widget.textbox()
+end
 
 local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
 local ram = ram_widget({})
