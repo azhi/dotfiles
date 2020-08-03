@@ -104,24 +104,28 @@ endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
-  inoremap <silent><buffer> <esc> <Plug>(denite_filter_quit)
+  imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
-  inoremap <silent><buffer> <C-j>
-  \ <Esc><C-w>p:call cursor(line('.')+1,0)<CR><C-w>pA
-  inoremap <silent><buffer> <C-k>
-  \ <Esc><C-w>p:call cursor(line('.')-1,0)<CR><C-w>pA
+  inoremap <silent><buffer> <C-j> <Esc>
+        \:call denite#move_to_parent()<CR>
+        \:call cursor(line('.')+1,0)<CR>
+        \:call denite#move_to_filter()<CR>A
+  inoremap <silent><buffer> <C-k> <Esc>
+        \:call denite#move_to_parent()<CR>
+        \:call cursor(line('.')-1,0)<CR>
+        \:call denite#move_to_filter()<CR>A
 endfunction
 
 function! DeniteFile()
   if isdirectory(getcwd() . '/.git')
-    execute 'Denite -start-filter file/rec/git'
+    execute 'Denite -buffer-name=files -start-filter file/rec/git'
   else
-    execute 'Denite -start-filter file/rec'
+    execute 'Denite -buffer-name=files -start-filter file/rec'
   endif
 endfunction
 
 nmap <leader>, :call DeniteFile()<CR>
-nmap <leader>b :Denite -start-filter buffer<CR>
+nmap <leader>b :Denite -buffer-name=buffers -start-filter buffer<CR>
 
 " make grep case-sensetive by default
 call denite#custom#var('grep', 'default_opts', ['-nH'])
@@ -145,9 +149,9 @@ function! DeniteGrep(ignoreCase, word)
   let ignoreflag = (a:ignoreCase || a:word == '') ? '-i' : ''
   let exactsuffix = a:word == '' ? '' : '/exact'
   if isdirectory(getcwd() . '/.git')
-    execute 'Denite -post-action=suspend -auto-resume -smartcase grep/git' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -buffer-name=grep -smartcase grep/git' . exactsuffix . '::' . ignoreflag . ':' . a:word
   else
-    execute 'Denite -post-action=suspend -auto-resume -smartcase grep' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -buffer-name=grep -smartcase grep' . exactsuffix . '::' . ignoreflag . ':' . a:word
   endif
 endfunction
 
@@ -156,6 +160,9 @@ nmap <leader>g :call DeniteGrep(0, '<C-R><C-W>')<CR>
 vmap <leader>f "my :call DeniteGrep(1, "<C-R>m")<CR>
 vmap <leader>g "my :call DeniteGrep(0, "<C-R>m")<CR>
 nmap <leader>h :call DeniteGrep(0, '')<CR>
+nmap <leader>r :Denite -buffer-name=grep -resume<CR>
+nmap <leader>n :Denite -buffer-name=grep -resume -cursor-pos=+1 -immediately<CR>
+nmap <leader>p :Denite -buffer-name=grep -resume -cursor-pos='-1' -immediately<CR>
 
 " ------------------ tcomment -------------------
 nmap // :TComment<CR>
@@ -190,7 +197,7 @@ let g:vim_json_syntax_conceal = 0
 " ------------------ nvim-miniyank -----------------
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
-map <leader>p <Plug>(miniyank-cycle)
+" map <leader>p <Plug>(miniyank-cycle)
 " map <leader>p <Plug>(miniyank-startput)
 " map <leader>P <Plug>(miniyank-startPut)
 map <leader>c <Plug>(miniyank-tochar)
