@@ -149,16 +149,16 @@ function! DeniteGrep(ignoreCase, word)
   let ignoreflag = (a:ignoreCase || a:word == '') ? '-i' : ''
   let exactsuffix = a:word == '' ? '' : '/exact'
   if isdirectory(getcwd() . '/.git')
-    execute 'Denite -buffer-name=grep -smartcase grep/git' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -buffer-name=grep -smartcase grep/git' . exactsuffix . '::' . ignoreflag . ':' . "'" . a:word . "'"
   else
-    execute 'Denite -buffer-name=grep -smartcase grep' . exactsuffix . '::' . ignoreflag . ':' . a:word
+    execute 'Denite -buffer-name=grep -smartcase grep' . exactsuffix . '::' . ignoreflag . ':' . "'" . a:word . "'"
   endif
 endfunction
 
 nmap <leader>f :call DeniteGrep(1, '<C-R><C-W>')<CR>
 nmap <leader>g :call DeniteGrep(0, '<C-R><C-W>')<CR>
-vmap <leader>f "my :call DeniteGrep(1, "<C-R>m")<CR>
-vmap <leader>g "my :call DeniteGrep(0, "<C-R>m")<CR>
+vmap <leader>f "my :call DeniteGrep(1, '<C-R>m')<CR>
+vmap <leader>g "my :call DeniteGrep(0, '<C-R>m')<CR>
 nmap <leader>h :call DeniteGrep(0, '')<CR>
 nmap <leader>r :Denite -buffer-name=grep -resume<CR>
 nmap <leader>n :Denite -buffer-name=grep -resume -cursor-pos=+1 -immediately<CR>
