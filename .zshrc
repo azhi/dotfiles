@@ -104,32 +104,75 @@ zstyle ':completion:*' add-space true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-autoload zkbd
-[[ ! -d ~/.zkbd ]] && mkdir ~/.zkbd
-[[ ! -f ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE} ]] && zkbd
-source  ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
+
+# use terminfo instead of zkdb
+# uncomment zkdb if any issues with key bindings arise
+#
+# autoload zkbd
+# [[ ! -d ~/.zkbd ]] && mkdir ~/.zkbd
+# [[ ! -f ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE} ]] && zkbd
+# source  ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
+
+typeset -g -A key
+
+key[F1]="${terminfo[kf1]}"
+key[F2]="${terminfo[kf2]}"
+key[F3]="${terminfo[kf3]}"
+key[F4]="${terminfo[kf4]}"
+key[F5]="${terminfo[kf5]}"
+key[F6]="${terminfo[kf6]}"
+key[F7]="${terminfo[kf7]}"
+key[F8]="${terminfo[kf8]}"
+key[F9]="${terminfo[kf9]}"
+key[F10]="${terminfo[kf10]}"
+key[F11]="${terminfo[kf11]}"
+key[F12]="${terminfo[kf12]}"
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+# terminfo does not work for ctrl-arrows for me
+key[Control-Left]="^[Od"
+key[Control-Right]="^[Oc"
+
 #setup key accordingly
-[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
-[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
-[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
-[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
-[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      up-line-or-history
-[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    down-line-or-history
-[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
-[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
-# ctrl-word jumps
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
+[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"       beginning-of-line
+[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"        end-of-line
+[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"     overwrite-mode
+[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}"  backward-delete-char
+[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"     delete-char
+[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"         up-line-or-history
+[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"       down-line-or-history
+[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"       backward-char
+[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"      forward-char
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"     history-search-backward
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"   history-search-forward
+[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"  reverse-menu-complete
+[[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
+[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
+
 # shift-tab : go backward in menu (invert of tab)
-bindkey '^[[Z' reverse-menu-complete
-# alt-1 : insert sudo at the start of the line
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo
-
 bindkey '^[1' insert-sudo
-# Page-up/down : complete current command line using history
-bindkey '^[[5~' history-search-backward
-bindkey '^[[6~' history-search-forward
+
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+	autoload -Uz add-zle-hook-widget
+	function zle_application_mode_start { echoti smkx }
+	function zle_application_mode_stop { echoti rmkx }
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
 
 # aliases
 alias ls='ls --color=auto'
