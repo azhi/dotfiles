@@ -196,7 +196,7 @@ source ~/.zsh/kube-exec-wrappers.sh
 source ~/.zsh/env.sh
 
 . $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+fpath=($HOME/.asdf/completions $fpath)
 
 # NPM global packages in HOME
 NPM_PACKAGES="$HOME/.npm-packages"
