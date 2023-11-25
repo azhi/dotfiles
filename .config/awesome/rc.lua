@@ -409,8 +409,7 @@ local tyrannical_tags = {
     init        = false,
     exclusive   = true,
     layout      = awful.layout.suit.max,
-    exec_once   = "clementine",
-    class       = { "Clementine" },
+    class       = { "strawberry", "spotify", "Spotify"},
     tyrannical  = true
   },
   {
