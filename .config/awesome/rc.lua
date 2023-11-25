@@ -162,7 +162,12 @@ end
 local weather = nil
 if config.widgets.weather.enabled then
   local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
-  weather = weather_widget({ city = config.widgets.weather.city, api_key = config.widgets.weather.apikey })
+  weather = weather_widget({
+    coordinates = config.widgets.weather.coordinates,
+    api_key = config.widgets.weather.apikey,
+    show_hourly_forecast = true,
+    show_daily_forecast = true
+  })
   weather = wibox.container.margin(weather, 0, 10, 0, 0, beautiful.bg_color, false)
 else
   weather = wibox.widget.textbox()

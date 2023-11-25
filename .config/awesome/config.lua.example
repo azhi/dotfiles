@@ -11,7 +11,7 @@ config.widgets = {}
 
 config.widgets.weather = {
   enabled = false,
-  city = "Montreal,ca",
+  coordinates = {53.9025865, 27.6342677}
   apikey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 
