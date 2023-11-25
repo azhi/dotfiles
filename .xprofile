@@ -1,5 +1,6 @@
 export GOPATH="/home/azhi/develop/go"
-export PATH="$PATH:~/.gem/ruby/2.7.0/bin"
+export PATH="$PATH:/home/azhi/.gem/ruby/3.0.0/bin:/home/azhi/bin"
+export MULTIUSER_PULSE_SERVER=unix:/tmp/pulse-socket
 source ~/.bashrc
 
 xbindkeys

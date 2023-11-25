@@ -445,16 +445,29 @@ local tyrannical_tags = {
     position    = 12,
     keyname     = "'d'",
     keycode     = 40,
-    name        = "stats",
-    icon        = gears.filesystem.get_configuration_dir() .. "icons/tags/stats.png",
+    name        = "DSP",
+    icon        = gears.filesystem.get_configuration_dir() .. "icons/tags/dsp.png",
     icon_only   = true,
-    layout      = awful.layout.suit.max,
-    init        = true,
-    exclusive   = true,
-    class       = { "Conky" },
+    layout      = awful.layout.suit.tile,
+    init        = false,
+    exclusive   = false,
+    class       = { "qpwgraph", "ebumeter" },
     tyrannical  = true
   },
 }
+
+awful.tag.__add = awful.tag.add
+
+awful.tag.add = function(tag,props,override)
+    local t = awful.tag.__add(tag,props,override)
+    t:connect_signal("property::selected", function(t)
+      if t.name == "DSP" and not t.started_dsp then
+        awful.spawn.with_shell("$HOME/bin/startup_dsp.sh")
+        t.started_dsp = true
+      end
+    end)
+    return t
+end
 
 tyrannical.tags = tyrannical_tags
 
@@ -465,7 +478,7 @@ tyrannical.properties.intrusive = { "pinentry", "Paste Special", "Xephyr", "keep
 tyrannical.properties.floating = { "MPlayer", "pinentry", "Paste Special", "keepassxc" }
 
 -- Make the matching clients (by classes) on top of the default layout
-tyrannical.properties.ontop = { "Xephyr", "keepassxc" }
+tyrannical.properties.ontop = { "Xephyr", "keepassxc", "ebumeter" }
 
 -- Force the matching clients (by classes) to be centered on the screen on init
 tyrannical.properties.placement = {
