@@ -1,4 +1,4 @@
-local lsp_servers = { 'elixirls', 'elmls', 'jsonls', 'ruby_ls', 'yamlls' }
+local lsp_servers = { 'elixirls', 'elmls', 'jsonls', 'ruby_lsp', 'yamlls' }
 
 return {
   {'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
