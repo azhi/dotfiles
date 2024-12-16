@@ -315,7 +315,7 @@ local tyrannical_tags = {
     layout      = awful.layout.suit.fair.horizontal,
     max_clients = 5,
     exec_once   = "urxvt",
-    class       = { "xterm", "urxvt", "URxvt", "XTerm" },
+    class       = { "xterm", "urxvt", "URxvt", "XTerm", "Alacritty" },
     tyrannical  = true
   },
   {
@@ -362,8 +362,8 @@ local tyrannical_tags = {
     init        = false,
     exclusive   = true,
     layout      = awful.layout.suit.max,
-    exec_once   = "nvim-gtk",
-    class       = { "NeovimGtk" },
+    exec_once   = "neovide",
+    class       = { "NeovimGtk", "neovide" },
     tyrannical  = true
   },
   {
@@ -905,10 +905,13 @@ awful.rules.rules = {
     },
 
     -- Disable size hints for URxvt
-    -- Track URxvt name (title) to change appearance when ssh'ing to something
     {
       rule = { class = "URxvt" },
       properties = { size_hints_honor = false },
+    },
+    -- Track terminal name (title) to change appearance when ssh'ing to something
+    {
+      rule_any = { class = {"URxvt", "Alacritty"} },
       callback = function(c)
         c:connect_signal("property::name", function(c)
           matched_title = c.name:match("%w+@[%w_-]+")
