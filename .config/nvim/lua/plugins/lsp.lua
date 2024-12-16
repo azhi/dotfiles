@@ -1,10 +1,11 @@
-local lsp_servers = { 'elixirls', 'elmls', 'jsonls', 'ruby_lsp', 'yamlls' }
+local lsp_servers = { 'elixirls', 'elmls', 'jsonls', 'ruby_ls', 'yamlls', 'hls' }
+local install_lsp_servers = { 'elixirls', 'elmls', 'jsonls', 'ruby_ls', 'yamlls'}
 
 return {
   {'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
   dependencies = { 'williamboman/mason-lspconfig.nvim', 'folke/neodev.nvim', 'hrsh7th/nvim-cmp', 'nvim-telescope/telescope.nvim' },
   config = function ()
-    require('mason-lspconfig').setup({ensure_installed = lsp_servers})
+    require('mason-lspconfig').setup({ensure_installed = install_lsp_servers, automatic_installation = false})
 
     local lspconfig = require 'lspconfig'
     local on_attach = function(_, bufnr)

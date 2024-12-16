@@ -40,7 +40,7 @@ return {
             -- ['C'] = 'close_all_subnodes',
             ["z"] = "close_all_nodes",
             --["Z"] = "expand_all_nodes",
-            ["a"] = { 
+            ["a"] = {
               "add",
               -- this command supports BASH style brace expansion ("x{a,b,c}" -> xa,xb,xc). see `:h neo-tree-file-actions` for details
               -- some commands may take optional config options, see `:h neo-tree-mappings` for details
@@ -67,6 +67,15 @@ return {
             ["?"] = "show_help",
             ["<"] = "prev_source",
             [">"] = "next_source",
+            ["g"] = function(state)
+              -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
+              -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
+              local node = state.tree:get_node()
+              local filepath = node:get_id()
+              local relative_filepath = vim.fn.fnamemodify(filepath, ":.")
+              vim.fn.setreg('+', relative_filepath)
+              vim.notify("Copied: " .. relative_filepath)
+            end,
           }
         },
         filesystem = {
